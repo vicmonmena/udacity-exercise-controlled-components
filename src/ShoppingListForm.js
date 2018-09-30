@@ -1,7 +1,37 @@
 import React from 'react';
 import Button from './Button.js';
+import ListItem from './ListItem.js';
+
 class ShoppingListForm extends React.Component {
   
+  state = {
+    value: '',
+    items: [],
+  };
+
+  handleChange = event => {
+    this.setState({ value: event.target.value });
+  };
+
+  addItem = event => {
+    event.preventDefault();
+    this.setState(oldState => ({
+      items: [...oldState.items, this.state.value],
+    }));
+  };
+
+  deleteLastItem = event => {
+    this.setState(prevState => ({ items: this.state.items.slice(0, -1) }));
+  };
+
+  inputIsEmpty = () => {
+    return this.state.value === '';
+  };
+
+  noItemsFound = () => {
+    return this.state.items.length === 0;
+  };
+
   render() {
   	return(
       <div>
@@ -13,16 +43,14 @@ class ShoppingListForm extends React.Component {
             value={this.state.value}
             onChange={this.handleChange}
           />
-          <button disabled={this.inputIsEmpty()}>Add</button>
+          <Button disabled={this.inputIsEmpty()} text="Add"/>
         </form>
 
-        <button onClick={this.deleteLastItem} disabled={this.noItemsFound()}>
-          Delete Last Item
-        </button>
+        <Button handleClick={this.deleteLastItem} handleDisabled={this.noItemsFound()} text="Delete Last Item" />
 
         <p className="items">Items</p>
         <ol className="item-list">
-          {this.state.items.map((item, index) => <li key={index}>{item}</li>)}
+          {this.state.items.map((item, index) => <ListItem key={index} text={item}/>)}
         </ol>
       </div>
     )
