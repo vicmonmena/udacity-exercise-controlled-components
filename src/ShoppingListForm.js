@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from './Button.js';
-import ListItem from './ListItem.js';
+import List from './List.js';
 
 class ShoppingListForm extends React.Component {
   
@@ -48,10 +48,7 @@ class ShoppingListForm extends React.Component {
 
         <Button handleClick={this.deleteLastItem} handleDisabled={this.noItemsFound()} text="Delete Last Item" />
 
-        <p className="items">Items</p>
-        <ol className="item-list">
-          {this.state.items.map((item, index) => <ListItem key={index} text={item}/>)}
-        </ol>
+        <List items={this.state.items}/>
       </div>
     )
   }
